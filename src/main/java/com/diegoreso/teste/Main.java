@@ -10,6 +10,7 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) {
         List<Funcionario> funcionarios = adicionarFuncionario();
+        removerFuncionario(funcionarios, "João");
     }
 
     private static List<Funcionario> adicionarFuncionario() {
@@ -26,5 +27,9 @@ public class Main {
         funcionarios.add(new Funcionario("Helena", LocalDate.of(1996, 9, 2), new BigDecimal("2799.93"), "Gerente"));
 
         return funcionarios;
+    }
+
+    private static void removerFuncionario(List<Funcionario> funcionarios, String nomeFuncionario) {
+        funcionarios.removeIf(funcionario -> funcionario.getNome().equals(nomeFuncionario));
     }
 }
