@@ -107,11 +107,9 @@ public class Main {
                 .collect(groupingBy(Funcionario::getFuncao));
 
         for (Map.Entry<String, List<Funcionario>> entry : funcionariosPorFuncao.entrySet()) {
-            String funcao = entry.getKey();
             List<Funcionario> listaFuncionarios = entry.getValue();
-
             imprimirFuncionarios(listaFuncionarios);
-            System.out.println("");
+            System.out.println();
         }
     }
 
