@@ -10,6 +10,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+
+import static java.util.stream.Collectors.groupingBy;
 
 public class Main {
 
@@ -27,6 +30,9 @@ public class Main {
         System.out.println("\nApós aumento de 10% no salário:\n");
         aplicarAumento(funcionarios, new BigDecimal("10"));
         imprimirFuncionarios(funcionarios);
+
+        System.out.println("\nAgrupamento por função:\n");
+        agruparFuncionariosPorFuncao(funcionarios);
     }
 
     private static List<Funcionario> adicionarFuncionario() {
@@ -79,6 +85,19 @@ public class Main {
                     .add(aumento)
                     .setScale(2, RoundingMode.HALF_UP);
             funcionario.setSalario(novoSalario);
+        }
+    }
+
+    private static void agruparFuncionariosPorFuncao(List<Funcionario> funcionarios) {
+        Map<String, List<Funcionario>> funcionariosPorFuncao = funcionarios.stream()
+                .collect(groupingBy(Funcionario::getFuncao));
+
+        for (Map.Entry<String, List<Funcionario>> entry : funcionariosPorFuncao.entrySet()) {
+            String funcao = entry.getKey();
+            List<Funcionario> listaFuncionarios = entry.getValue();
+
+            imprimirFuncionarios(listaFuncionarios);
+            System.out.println("");
         }
     }
 }
