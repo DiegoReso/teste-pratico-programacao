@@ -43,6 +43,9 @@ public class Main {
 
         System.out.println("\nFuncionários por ordem Alfabética:\n");
         imprimirFuncionariosOrdemAlfabetica(funcionarios);
+
+        System.out.println("\nTotal Salários dos Funcionários:\n");
+        imprimirTotalSalariosFuncionarios(funcionarios);
     }
 
     private static List<Funcionario> adicionarFuncionario() {
@@ -152,5 +155,13 @@ public class Main {
                 .sorted(Comparator.comparing(Funcionario::getNome))
                 .toList();
         imprimirFuncionarios(listaFuncionarios);
+    }
+
+    private static void imprimirTotalSalariosFuncionarios(List<Funcionario> funcionarios){
+        BigDecimal totalSalarios = funcionarios.stream()
+                .map(Funcionario::getSalario)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        System.out.println("Total dos salários dos funcionários: " + totalSalarios);
     }
 }
