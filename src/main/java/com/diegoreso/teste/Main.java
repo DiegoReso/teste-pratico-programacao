@@ -3,6 +3,7 @@ package main.java.com.diegoreso.teste;
 import main.java.com.diegoreso.teste.model.Funcionario;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -16,8 +17,15 @@ public class Main {
     private static NumberFormat formatterSalario = NumberFormat.getInstance(new Locale("pt", "BR"));
 
     public static void main(String[] args) {
+
         List<Funcionario> funcionarios = adicionarFuncionario();
+
         removerFuncionario(funcionarios, "João");
+
+        imprimirFuncionarios(funcionarios);
+
+        System.out.println("\nApós aumento de 10% no salário:\n");
+        aplicarAumento(funcionarios, new BigDecimal("10"));
         imprimirFuncionarios(funcionarios);
     }
 
@@ -42,7 +50,6 @@ public class Main {
     }
 
     private static void imprimirFuncionarios(List<Funcionario> funcionarios) {
-
         System.out.printf("%-10s | %-15s | %-10s | %-10s%n",
                 "Nome",
                 "Data Nascimento",
@@ -51,7 +58,6 @@ public class Main {
         System.out.println("-----------------------------------------------------------");
 
         for (Funcionario funcionario : funcionarios) {
-
             String dataNascimentoFormatada = funcionario.getDataNascimento().format(formatterData);
             String salarioFormatado = formatterSalario.format(funcionario.getSalario());
 
@@ -60,6 +66,19 @@ public class Main {
                     dataNascimentoFormatada,
                     salarioFormatado,
                     funcionario.getFuncao());
+        }
+    }
+
+    private static void aplicarAumento(List<Funcionario> funcionarios, BigDecimal percentual) {
+        for (Funcionario funcionario : funcionarios) {
+            BigDecimal aumento = funcionario.getSalario()
+                    .multiply(percentual)
+                    .divide(new BigDecimal("100"));
+
+            BigDecimal novoSalario = funcionario.getSalario()
+                    .add(aumento)
+                    .setScale(2, RoundingMode.HALF_UP);
+            funcionario.setSalario(novoSalario);
         }
     }
 }
