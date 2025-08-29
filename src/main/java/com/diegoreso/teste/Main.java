@@ -33,6 +33,12 @@ public class Main {
 
         System.out.println("\nAgrupamento por função:\n");
         agruparFuncionariosPorFuncao(funcionarios);
+
+        System.out.println("\nFuncionários que fazem aniversário no mês 10:\n");
+        imprimirFuncionariosMesAniversario(funcionarios, 10);
+
+        System.out.println("\nFuncionários que fazem aniversário no mês 12:\n");
+        imprimirFuncionariosMesAniversario(funcionarios, 12);
     }
 
     private static List<Funcionario> adicionarFuncionario() {
@@ -99,5 +105,13 @@ public class Main {
             imprimirFuncionarios(listaFuncionarios);
             System.out.println("");
         }
+    }
+
+    private static void imprimirFuncionariosMesAniversario(List<Funcionario> funcionarios, int mes){
+        List<Funcionario> funcionariosPorMesAniversario =  funcionarios.stream()
+                .filter(funcionario -> funcionario.getDataNascimento().getMonthValue() == mes)
+                .toList();
+
+        imprimirFuncionarios(funcionariosPorMesAniversario);
     }
 }
