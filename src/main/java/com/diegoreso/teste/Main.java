@@ -6,11 +6,9 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.NumberFormat;
 import java.time.LocalDate;
+import java.time.Period;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 import static java.util.stream.Collectors.groupingBy;
 
@@ -39,6 +37,9 @@ public class Main {
 
         System.out.println("\nFuncionários que fazem aniversário no mês 12:\n");
         imprimirFuncionariosMesAniversario(funcionarios, 12);
+
+        System.out.println("\nFuncionário com maior idade:\n");
+        imprimirFuncionarioComMaiorIdade(funcionarios);
     }
 
     private static List<Funcionario> adicionarFuncionario() {
@@ -119,5 +120,27 @@ public class Main {
                 .toList();
 
         imprimirFuncionarios(funcionariosPorMesAniversario);
+    }
+
+    private static void imprimirFuncionarioComMaiorIdade(List<Funcionario> funcionarios) {
+        funcionarios.stream()
+                .min(Comparator.comparing(Funcionario::getDataNascimento))
+                .ifPresent(funcionarioMaisVelho -> {
+                    int idade = Period.between(funcionarioMaisVelho.getDataNascimento(), LocalDate.now()).getYears();
+
+                    System.out.printf("%-10s | %-10s%n", "Nome", "Idade");
+                    System.out.println("---------------------");
+
+                    System.out.printf("%-10s | %s anos",
+                            funcionarioMaisVelho.getNome(),
+                            idade);
+                });
+
+        if (funcionarios.isEmpty()) {
+            System.out.println("╔═══════════════════════════════════════╗");
+            System.out.println("║          Nenhum funcionário           ║");
+            System.out.println("║              encontrado!              ║");
+            System.out.println("╚═══════════════════════════════════════╝");
+        }
     }
 }
