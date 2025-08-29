@@ -40,6 +40,9 @@ public class Main {
 
         System.out.println("\nFuncionário com maior idade:\n");
         imprimirFuncionarioComMaiorIdade(funcionarios);
+
+        System.out.println("\nFuncionários por ordem Alfabética:\n");
+        imprimirFuncionariosOrdemAlfabetica(funcionarios);
     }
 
     private static List<Funcionario> adicionarFuncionario() {
@@ -131,7 +134,7 @@ public class Main {
                     System.out.printf("%-10s | %-10s%n", "Nome", "Idade");
                     System.out.println("---------------------");
 
-                    System.out.printf("%-10s | %s anos",
+                    System.out.printf("%-10s | %s anos%n",
                             funcionarioMaisVelho.getNome(),
                             idade);
                 });
@@ -142,5 +145,12 @@ public class Main {
             System.out.println("║              encontrado!              ║");
             System.out.println("╚═══════════════════════════════════════╝");
         }
+    }
+
+    private static void imprimirFuncionariosOrdemAlfabetica(List<Funcionario> funcionarios){
+        List<Funcionario> listaFuncionarios = funcionarios.stream()
+                .sorted(Comparator.comparing(Funcionario::getNome))
+                .toList();
+        imprimirFuncionarios(listaFuncionarios);
     }
 }
