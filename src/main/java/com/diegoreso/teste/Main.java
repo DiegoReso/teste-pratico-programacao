@@ -62,6 +62,14 @@ public class Main {
     }
 
     private static void imprimirFuncionarios(List<Funcionario> funcionarios) {
+        if (funcionarios.isEmpty()) {
+            System.out.println("╔═══════════════════════════════════════╗");
+            System.out.println("║          Nenhum funcionário           ║");
+            System.out.println("║              encontrado!              ║");
+            System.out.println("╚═══════════════════════════════════════╝");
+            return;
+        }
+
         System.out.printf("%-10s | %-15s | %-10s | %-10s%n",
                 "Nome",
                 "Data Nascimento",
@@ -107,8 +115,8 @@ public class Main {
         }
     }
 
-    private static void imprimirFuncionariosMesAniversario(List<Funcionario> funcionarios, int mes){
-        List<Funcionario> funcionariosPorMesAniversario =  funcionarios.stream()
+    private static void imprimirFuncionariosMesAniversario(List<Funcionario> funcionarios, int mes) {
+        List<Funcionario> funcionariosPorMesAniversario = funcionarios.stream()
                 .filter(funcionario -> funcionario.getDataNascimento().getMonthValue() == mes)
                 .toList();
 
