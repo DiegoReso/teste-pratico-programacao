@@ -3,14 +3,22 @@ package main.java.com.diegoreso.teste;
 import main.java.com.diegoreso.teste.model.Funcionario;
 
 import java.math.BigDecimal;
+import java.text.NumberFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class Main {
+
+    private static DateTimeFormatter formatterData = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    private static NumberFormat formatterSalario = NumberFormat.getInstance(new Locale("pt", "BR"));
+
     public static void main(String[] args) {
         List<Funcionario> funcionarios = adicionarFuncionario();
         removerFuncionario(funcionarios, "João");
+        imprimirFuncionarios(funcionarios);
     }
 
     private static List<Funcionario> adicionarFuncionario() {
@@ -31,5 +39,27 @@ public class Main {
 
     private static void removerFuncionario(List<Funcionario> funcionarios, String nomeFuncionario) {
         funcionarios.removeIf(funcionario -> funcionario.getNome().equals(nomeFuncionario));
+    }
+
+    private static void imprimirFuncionarios(List<Funcionario> funcionarios) {
+
+        System.out.printf("%-10s | %-15s | %-10s | %-10s%n",
+                "Nome",
+                "Data Nascimento",
+                "Salário",
+                "Função");
+        System.out.println("-----------------------------------------------------------");
+
+        for (Funcionario funcionario : funcionarios) {
+
+            String dataNascimentoFormatada = funcionario.getDataNascimento().format(formatterData);
+            String salarioFormatado = formatterSalario.format(funcionario.getSalario());
+
+            System.out.printf("%-10s | %-15s | %-10s | %-10s%n",
+                    funcionario.getNome(),
+                    dataNascimentoFormatada,
+                    salarioFormatado,
+                    funcionario.getFuncao());
+        }
     }
 }
