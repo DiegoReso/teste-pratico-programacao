@@ -16,6 +16,7 @@ public class Main {
 
     private static DateTimeFormatter formatterData = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private static NumberFormat formatterSalario = NumberFormat.getInstance(new Locale("pt", "BR"));
+    private static final BigDecimal SALARIO_MINIMO = new BigDecimal("1212.00");
 
     public static void main(String[] args) {
 
@@ -46,6 +47,10 @@ public class Main {
 
         System.out.println("\nTotal Salários dos Funcionários:\n");
         imprimirTotalSalariosFuncionarios(funcionarios);
+
+        System.out.println("\nTotal Salários Mínimos por Funcionário:\n");
+        imprimirSalariosMinimos(funcionarios);
+
     }
 
     private static List<Funcionario> adicionarFuncionario() {
@@ -150,18 +155,27 @@ public class Main {
         }
     }
 
-    private static void imprimirFuncionariosOrdemAlfabetica(List<Funcionario> funcionarios){
+    private static void imprimirFuncionariosOrdemAlfabetica(List<Funcionario> funcionarios) {
         List<Funcionario> listaFuncionarios = funcionarios.stream()
                 .sorted(Comparator.comparing(Funcionario::getNome))
                 .toList();
         imprimirFuncionarios(listaFuncionarios);
     }
 
-    private static void imprimirTotalSalariosFuncionarios(List<Funcionario> funcionarios){
+    private static void imprimirTotalSalariosFuncionarios(List<Funcionario> funcionarios) {
         BigDecimal totalSalarios = funcionarios.stream()
                 .map(Funcionario::getSalario)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-        System.out.println("Total dos salários dos funcionários: " + totalSalarios);
+        System.out.println("Total: " + totalSalarios);
+    }
+
+    private static void imprimirSalariosMinimos(List<Funcionario> funcionarios) {
+        for (Funcionario funcionario : funcionarios) {
+            BigDecimal salariosMinimos = funcionario.getSalario()
+                    .divide(SALARIO_MINIMO, 1, RoundingMode.HALF_UP);
+            funcionario.setSalario(salariosMinimos);
+        }
+        imprimirFuncionarios(funcionarios);
     }
 }
