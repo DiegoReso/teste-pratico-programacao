@@ -171,11 +171,11 @@ public class Main {
     }
 
     private static void imprimirSalariosMinimos(List<Funcionario> funcionarios) {
+        List<Funcionario> funcionariosComSalarioMinimo=  new ArrayList<>();
         for (Funcionario funcionario : funcionarios) {
-            BigDecimal salariosMinimos = funcionario.getSalario()
-                    .divide(SALARIO_MINIMO, 1, RoundingMode.HALF_UP);
-            funcionario.setSalario(salariosMinimos);
+            BigDecimal salariosMinimos = funcionario.getSalario().divide(SALARIO_MINIMO,1,RoundingMode.HALF_UP);
+            funcionariosComSalarioMinimo.add(new Funcionario(funcionario.getNome(), funcionario.getDataNascimento(), salariosMinimos, funcionario.getFuncao()));
         }
-        imprimirFuncionarios(funcionarios);
+        imprimirFuncionarios(funcionariosComSalarioMinimo);
     }
 }
